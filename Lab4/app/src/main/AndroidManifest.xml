@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="pl.lehmann.Lab4">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".InfoActivity"
+            android:label="@string/info"
+            android:parentActivityName=".TopLevelActivity" />
+        <activity
+            android:name=".AmazonActivity"
+            android:label="@string/amazon"
+            android:parentActivityName=".AmazonPlatformActivity" />
+        <activity
+            android:name=".HboActivity"
+            android:label="@string/hbo"
+            android:parentActivityName=".HboPlatformActivity" />
+        <activity
+            android:name=".NetflixActivity"
+            android:label="@string/netflix"
+            android:parentActivityName=".NetflixPlatformActivity" />
+        <activity
+            android:name=".AmazonPlatformActivity"
+            android:label="@string/amazon"
+            android:parentActivityName=".TopLevelActivity" />
+        <activity
+            android:name=".HboPlatformActivity"
+            android:label="@string/hbo"
+            android:parentActivityName=".TopLevelActivity" />
+        <activity
+            android:name=".NetflixPlatformActivity"
+            android:label="@string/netflix"
+            android:parentActivityName=".TopLevelActivity" />
+        <activity android:name=".TopLevelActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>
