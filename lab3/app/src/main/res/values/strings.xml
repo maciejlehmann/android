@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">lab3</string>
+    <string name="radio1">Opcja 1</string>
+    <string name="radio2">Opcja 2</string>
+    <string name="radio3">Opcja 3</string>
+    <string name="checkbox1">Wariant 1</string>
+    <string name="checkbox2">Wariant 2</string>
+    <string name="checkbox3">Wariant 3</string>
+    <string name="button">Następna aktywność!</string>
+    <string-array name="spinner_items">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+</resources>
