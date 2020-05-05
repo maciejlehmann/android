@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Lab2</string>
+    <string name="send">Send Message</string>
+    <string name="first">Go to first activity</string>
+    <string name="second">Go to second activity</string>
+    <string name="third">Go to third activity</string>
+    <string name="hint">Enter a message</string>
+</resources>
