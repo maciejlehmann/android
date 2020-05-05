@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Lab4</string>
+    <string name="sezony">Liczba sezonów:</string>
+    <string name="info">App info</string>
+    <string name="opis">Aplikacja przedstawiająca wybrane produkcje platform streamingowych.</string>
+    <string name="creator">Made by Maciej Lehmann</string>
+    <string name="amazon">Amazon</string>
+    <string name="netflix">Netflix</string>
+    <string name="hbo">HBO GO</string>
+
+    <string-array name="options">
+        <item>Netflix</item>
+        <item>HBO GO</item>
+        <item>Amazon</item>
+    </string-array>
+</resources>
