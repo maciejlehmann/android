@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="pl.lehmann.databasee">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name="pl.lehmann.databasee.InfoActivity"
+            android:label="@string/info"
+            android:parentActivityName="pl.lehmann.databasee.TopLevelActivity" />
+        <activity
+            android:name="pl.lehmann.databasee.AmazonActivity"
+            android:label="@string/amazon"
+            android:parentActivityName="pl.lehmann.databasee.AmazonPlatformActivity" />
+        <activity
+            android:name="pl.lehmann.databasee.HboActivity"
+            android:label="@string/hbo"
+            android:parentActivityName="pl.lehmann.databasee.HboPlatformActivity" />
+        <activity
+            android:name="pl.lehmann.databasee.NetflixActivity"
+            android:label="@string/netflix"
+            android:parentActivityName="pl.lehmann.databasee.NetflixPlatformActivity" />
+        <activity
+            android:name="pl.lehmann.databasee.AmazonPlatformActivity"
+            android:label="@string/amazon"
+            android:parentActivityName="pl.lehmann.databasee.TopLevelActivity" />
+        <activity
+            android:name="pl.lehmann.databasee.HboPlatformActivity"
+            android:label="@string/hbo"
+            android:parentActivityName="pl.lehmann.databasee.TopLevelActivity" />
+        <activity
+            android:name="pl.lehmann.databasee.NetflixPlatformActivity"
+            android:label="@string/netflix"
+            android:parentActivityName="pl.lehmann.databasee.TopLevelActivity" />
+        <activity android:name="pl.lehmann.databasee.TopLevelActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>
