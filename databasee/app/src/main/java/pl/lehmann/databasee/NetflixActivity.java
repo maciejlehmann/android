@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -81,24 +82,37 @@ public class NetflixActivity extends AppCompatActivity {
     //Update the database when the checkbox is clicked
     public void onWatchedClicked(View view) {
         int netflixId = (Integer) getIntent().getExtras().get(EXTRA_NETFLIXID);
+        new UpdateNetflixTask().execute(netflixId);
+    }
 
-        //Get the value of the checkbox
-        CheckBox watched = (CheckBox) findViewById(R.id.watched);
-        ContentValues netflixValues = new ContentValues();
-        netflixValues.put("WATCHED", watched.isChecked());
 
-        //Get a reference to the database and update the WATCHED column
-        SQLiteOpenHelper databaseHelper = new DatabaseHelper(this);
-        try {
-            SQLiteDatabase db = databaseHelper.getWritableDatabase();
-            db.update("NETFLIX",
-                    netflixValues,
-                    "_id = ?",
-                    new String[]{Integer.toString(netflixId)});
-            db.close();
-        } catch (SQLiteException e) {
-            Toast toast = Toast.makeText(this, "Database unavailable", Toast.LENGTH_SHORT);
-            toast.show();
+    private class UpdateNetflixTask extends AsyncTask<Integer, Void, Boolean> {
+        private ContentValues netflixValues;
+
+        protected void onPreExecute() {
+            CheckBox watched = (CheckBox) findViewById(R.id.watched);
+            netflixValues = new ContentValues();
+            netflixValues.put("WATCHED", watched.isChecked());
+        }
+
+        protected Boolean doInBackground(Integer... netflix) {
+            int netflixId = netflix[0];
+            SQLiteOpenHelper databaseHelper = new DatabaseHelper(NetflixActivity.this);
+            try {
+                SQLiteDatabase db = databaseHelper.getWritableDatabase();
+                db.update("NETFLIX", netflixValues, "_id = ?", new String[]{Integer.toString(netflixId)});
+                db.close();
+                return true;
+            } catch (SQLiteException e) {
+                return false;
+            }
+        }
+
+        protected void onPostExecute(Boolean success) {
+            if (!success) {
+                Toast toast = Toast.makeText(NetflixActivity.this, "Database unavailable", Toast.LENGTH_SHORT);
+                toast.show();
+            }
         }
     }
 }

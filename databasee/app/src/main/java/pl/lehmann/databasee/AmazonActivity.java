@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -81,24 +82,36 @@ public class AmazonActivity extends AppCompatActivity {
     //Update the database when the checkbox is clicked
     public void onWatchedClicked(View view) {
         int amazonId = (Integer) getIntent().getExtras().get(EXTRA_AMAZONID);
+        new UpdateAmazonTask().execute(amazonId);
+    }
 
-        //Get the value of the checkbox
-        CheckBox watched = (CheckBox) findViewById(R.id.watched);
-        ContentValues amazonValues = new ContentValues();
-        amazonValues.put("WATCHED", watched.isChecked());
+    private class UpdateAmazonTask extends AsyncTask<Integer, Void, Boolean> {
+        private ContentValues amazonValues;
 
-        //Get a reference to the database and update the FAVORITE column
-        SQLiteOpenHelper databaseHelper = new DatabaseHelper(this);
-        try {
-            SQLiteDatabase db = databaseHelper.getWritableDatabase();
-            db.update("AMAZON",
-                    amazonValues,
-                    "_id = ?",
-                    new String[]{Integer.toString(amazonId)});
-            db.close();
-        } catch (SQLiteException e) {
-            Toast toast = Toast.makeText(this, "Database unavailable", Toast.LENGTH_SHORT);
-            toast.show();
+        protected void onPreExecute() {
+            CheckBox watched = (CheckBox) findViewById(R.id.watched);
+            amazonValues = new ContentValues();
+            amazonValues.put("WATCHED", watched.isChecked());
+        }
+
+        protected Boolean doInBackground(Integer... amazon) {
+            int amazonId = amazon[0];
+            SQLiteOpenHelper databaseHelper = new DatabaseHelper(AmazonActivity.this);
+            try {
+                SQLiteDatabase db = databaseHelper.getWritableDatabase();
+                db.update("AMAZON", amazonValues, "_id = ?", new String[]{Integer.toString(amazonId)});
+                db.close();
+                return true;
+            } catch (SQLiteException e) {
+                return false;
+            }
+        }
+
+        protected void onPostExecute(Boolean success) {
+            if (!success) {
+                Toast toast = Toast.makeText(AmazonActivity.this, "Database unavailable", Toast.LENGTH_SHORT);
+                toast.show();
+            }
         }
     }
 }

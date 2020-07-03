@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -81,24 +82,36 @@ public class HboActivity extends AppCompatActivity {
     //Update the database when the checkbox is clicked
     public void onWatchedClicked(View view) {
         int hboId = (Integer) getIntent().getExtras().get(EXTRA_HBOID);
+        new UpdateHboTask().execute(hboId);
+    }
 
-        //Get the value of the checkbox
-        CheckBox watched = (CheckBox) findViewById(R.id.watched);
-        ContentValues hboValues = new ContentValues();
-        hboValues.put("WATCHED", watched.isChecked());
+    private class UpdateHboTask extends AsyncTask<Integer, Void, Boolean> {
+        private ContentValues hboValues;
 
-        //Get a reference to the database and update the FAVORITE column
-        SQLiteOpenHelper databaseHelper = new DatabaseHelper(this);
-        try {
-            SQLiteDatabase db = databaseHelper.getWritableDatabase();
-            db.update("HBO",
-                    hboValues,
-                    "_id = ?",
-                    new String[]{Integer.toString(hboId)});
-            db.close();
-        } catch (SQLiteException e) {
-            Toast toast = Toast.makeText(this, "Database unavailable", Toast.LENGTH_SHORT);
-            toast.show();
+        protected void onPreExecute() {
+            CheckBox watched = (CheckBox) findViewById(R.id.watched);
+            hboValues = new ContentValues();
+            hboValues.put("WATCHED", watched.isChecked());
+        }
+
+        protected Boolean doInBackground(Integer... hbo) {
+            int hboId = hbo[0];
+            SQLiteOpenHelper databaseHelper = new DatabaseHelper(HboActivity.this);
+            try {
+                SQLiteDatabase db = databaseHelper.getWritableDatabase();
+                db.update("HBO", hboValues, "_id = ?", new String[]{Integer.toString(hboId)});
+                db.close();
+                return true;
+            } catch (SQLiteException e) {
+                return false;
+            }
+        }
+
+        protected void onPostExecute(Boolean success) {
+            if (!success) {
+                Toast toast = Toast.makeText(HboActivity.this, "Database unavailable", Toast.LENGTH_SHORT);
+                toast.show();
+            }
         }
     }
 }
